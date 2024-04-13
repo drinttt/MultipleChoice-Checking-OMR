@@ -60,6 +60,9 @@ export default {
                         alert("Please select a file.");
                         return;
                 }
+
+                await axios.post("http://localhost/api/deleteOldAnsKey.php", { id_exam: this.exam.id_exam });
+
                 const reader = new FileReader();
                 reader.onload = async (e) => {
                     const data = e.target.result;

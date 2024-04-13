@@ -20,6 +20,7 @@ const editedScore = ref(0);
 
 const examDetails = ref([]);
 const headers = ref([
+  { title: 'No.', value: 'no_student' },
   { title: 'Student ID', value: 'id_student' },
   { title: 'Student Name', value: 'st_name' },
   // { title: 'Section', value: 'section' },

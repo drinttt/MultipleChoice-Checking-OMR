@@ -31,11 +31,16 @@ const saveChanges = async () => {
         form.value.username
     ) {
         const formData = new FormData();
-        formData.append('name', form.value.name);
-        formData.append('surname', form.value.surname);
-        formData.append('email', form.value.email);
-        formData.append('password', form.value.password);
-        formData.append('username', form.value.username);
+        // formData.append('name', form.value.name);
+        // formData.append('surname', form.value.surname);
+        // formData.append('email', form.value.email);
+        // formData.append('password', form.value.password);
+        // formData.append('username', form.value.username);
+        formData.set('name', form.value.name);
+        formData.set('surname', form.value.surname);
+        formData.set('email', form.value.email);
+        formData.set('password', form.value.password);
+        formData.set('username', form.value.username);
 
         console.log(form.value.name)
         console.log(formData)
