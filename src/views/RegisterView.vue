@@ -24,22 +24,20 @@ export default {
         }
     },
     methods: {
-        async checkUsername(username) {
-            try {
-                const response = await axios.get(`http://localhost/api/checkUsername.php?username=${username}`);
-                if (response.data.exists) {
-                    // If username exists, set flag to true
-                    this.usernameExists = true;
-                }
-            } catch (error) {
-                console.error('Error checking username:', error);
-            }
-        },
+      async checkUsername(username) {
+        try {
+            const response = await axios.get(`http://localhost/api/checkUsername.php?username=${username}`);
+            this.usernameExists = response.data.exists; // Set based on API response
+        } catch (error) {
+            console.error('Error checking username:', error);
+            this.usernameExists = false; // Assume username does not exist if there is an error
+        }
+      },
         async submitForm() {
-            if (this.usernameExists) {
-                alert('Username already taken. Please choose a different one.');
-                return; // Prevent form submission if username exists
-            }
+            // if (this.usernameExists) {
+            //     alert('Username already taken. Please choose a different one.');
+            //     return; // Prevent form submission if username exists
+            // }
             try {
                 const formData = new FormData();
                 formData.append('username', this.user.username);
@@ -59,7 +57,7 @@ export default {
                 }
             } catch (error) {
                 console.error('Error registering:', error);
-                alert('An error occurred while registering. Please try again later.');
+                alert('An error occurred while registering. Please try again later1.');
             }
         }
     }
@@ -85,50 +83,36 @@ export default {
                             <v-card-text class="justify-center">
                                 <v-form class="justify-center">
                                     <v-col cols="12" class="justify-center">
-                                        <!-- <div class="form-group">
-                                            <label>Username:</label>
-                                            <input type="text" id="username" v-model="user.username" required>
-                                        </div> -->
 
-                                        <div class="form-group">
-                                            <label>Username:</label>
-                                            <input type="text" id="username" v-model="user.username"
-                                                @input="usernameExists = false" required>
-                                            <!-- Alert Text -->
-                                            <div v-if="usernameExists" class="alert-box">
-                                                Username นี้มีคนใช้แล้ว
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password:</label>
-                                            <input type="password" id="password" v-model="user.password" required>
-                                        </div>
+                                        <v-text-field type="text" label="Username" v-model="user.username"
+                                          prepend-inner-icon="mdi-account" variant="outlined" required class="headlogin"
+                                          :rules="[v => !!v || 'Username is required',v => !usernameExists || 'Username นี้มีคนใช้แล้ว']">
+                                        </v-text-field>
+
+                                        <v-text-field type="password" label="Password" v-model="user.password"
+                                          prepend-inner-icon="mdi-lock" variant="outlined" required class="headlogin"
+                                          :rules="[v => !!v || 'Password is required']">
+                                        </v-text-field>
+
                                         <v-row>
-                                            <v-col cols="6">
-                                                <div class="form-group">
-                                                    <label>Name:</label>
-                                                    <input type="text" id="name" v-model="user.name" required>
-                                                </div>
+                                            <v-col cols="6">                                          
+                                                <v-text-field type="text" label="Name" v-model="user.name"
+                                                  variant="outlined" required class="headlogin"
+                                                  :rules="[v => !!v || 'Name is required']">
+                                                </v-text-field>
                                             </v-col>
                                             <v-col cols="6">
-                                                <div class="form-group">
-                                                    <label>Surname:</label>
-                                                    <input type="text" id="surname" v-model="user.surname" required>
-                                                </div>
+                                                <v-text-field type="text" label="Surname" v-model="user.surname"
+                                                  variant="outlined" required class="headlogin"
+                                                  :rules="[v => !!v || 'Surname is required']">
+                                                </v-text-field>
                                             </v-col>
                                         </v-row>
-
-                                        <div class="form-group">
-                                            <label>Email:</label>
-                                            <input type="email" id="email" v-model="user.email" required>
-                                        </div>
+                                        <v-text-field type="email" label="Email" v-model="user.email"
+                                          variant="outlined" required class="headlogin"
+                                          :rules="[v => !!v || 'Email is required']">
+                                        </v-text-field>
                                     </v-col>
-                                    <div class="text-caption text-center">
-                                        <p class="grey">
-                                            Already have an account? <router-link to="/login"
-                                                class="linkregis">Login</router-link>
-                                        </p>
-                                    </div>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions class="align-content-xl-center justify-center">
@@ -148,51 +132,6 @@ export default {
 </template>
 
 <style>
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.alert-box {
-    display: block;
-    /* Make the box appear on a new line */
-    color: red;
-    /* Text color */
-    font-size: 14px;
-    /* Text size */
-    margin-top: 5px;
-    /* Space between input and box */
-    border: 1px solid red;
-    /* Border color */
-    padding: 5px;
-    /* Padding inside the box */
-    border-radius: 5px;
-    /* Rounded corners */
-    background-color: #ffe6e6;
-    /* Light red background */
-    box-shadow: 0px 0px 5px red;
-    /* Shadow effect */
-}
-
-.input-group {
-    display: flex;
-    align-items: center;
-    /* Aligns icon vertically with the input field */
-}
-
-.form-group input[type="text"],
-.form-group input[type="password"],
-.form-group input[type="email"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 #rounded-card {
     border-radius: 25px;
     -webkit-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);

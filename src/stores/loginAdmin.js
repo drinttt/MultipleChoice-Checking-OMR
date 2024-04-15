@@ -3,9 +3,12 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const useAdminLoginStore = defineStore('adminLogin', () => {
-  const adminUsername = ref('');
-  const isAdminLoggedIn = computed(() => adminUsername.value !== '');
-  const adminToken = ref(localStorage.getItem('AdminToken') || '');
+  const adminUsername = ref('')
+  const isAdminLoggedIn = computed(() => {
+    return adminUsername.value === ''
+  })
+
+  // const adminToken = ref(localStorage.getItem('adminToken') || '');
 
   const adminLogin = async (username_ad, password_ad) => {
     try {
@@ -16,9 +19,10 @@ export const useAdminLoginStore = defineStore('adminLogin', () => {
 
       if (response.data.success) {
         adminUsername.value = username_ad;
-        adminToken.value = response.data.token;
-        localStorage.setItem('AdminUsername', username_ad);
-        localStorage.setItem('AdminToken', response.data.token);
+        // adminToken.value = response.data.token;
+        localStorage.setItem('adminUsername', username_ad);
+        localStorage.setItem('adminToken', response.data.token);
+        console.log("Admin login success:");
       } else {
         throw new Error(response.data.message);
       }
@@ -30,20 +34,20 @@ export const useAdminLoginStore = defineStore('adminLogin', () => {
 
   const adminLogout = () => {
     adminUsername.value = '';
-    adminToken.value = '';
-    localStorage.removeItem('AdminUsername');
-    localStorage.removeItem('AdminToken');
+    // adminToken.value = '';
+    localStorage.removeItem('adminUsername');
+    localStorage.removeItem('adminToken');
   };
 
   const loadAdminData = () => {
-    adminUsername.value = localStorage.getItem('AdminUsername') || '';
-    adminToken.value = localStorage.getItem('AdminToken') || '';
+    adminUsername.value = localStorage.getItem('adminUsername') || '';
+    // adminToken.value = localStorage.getItem('adminToken') || '';
   };
 
   return {
     adminUsername,
     isAdminLoggedIn,
-    adminToken,
+    // adminToken,
     adminLogin,
     adminLogout,
     loadAdminData

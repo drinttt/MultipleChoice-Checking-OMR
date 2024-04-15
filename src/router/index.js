@@ -19,11 +19,11 @@ const router = createRouter({
       name: 'test',
       component: () => import('../views/tetsView.vue')
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/loginView.vue')
-    },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: () => import('../views/loginView.vue')
+    // },
     {
       path: '/createExam',
       name: 'createExam',
@@ -64,11 +64,11 @@ const router = createRouter({
       name: 'hExam',
       component: () => import('../views/HomeExam.vue')
     },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import('../views/RegisterView.vue')
-    },
+    // {
+    //   path: '/register',
+    //   name: 'register',
+    //   component: () => import('../views/RegisterView.vue')
+    // },
     {
       path: '/student-answer/:id_exam/:id_student',
       name: 'StudentAnswer',
@@ -88,6 +88,16 @@ const router = createRouter({
       path: '/Profile',
       name: 'Profile',
       component: () => import('../views/ProfileView.vue')
+    },
+    {
+      path: '/loginAdmin',
+      name: 'admin',
+      component: () => import('../views/loginAdmin.vue')
+    },
+    {
+      path: '/addAdmin',
+      name: 'addAdmin',
+      component: () => import('../views/addAdmin.vue')
     },
   ]
 })

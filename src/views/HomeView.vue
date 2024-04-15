@@ -67,8 +67,9 @@ const updateSubject = async () => {
 //     }
 // };
 function goBack() {
-    // คำสั่งนี้จะทำให้ browser ย้อนกลับไปยังหน้าก่อนหน้า
     window.location.href = document.referrer;
+    // window.location.href
+
 }
 
 const deleteSubject = async (code_subject) => {

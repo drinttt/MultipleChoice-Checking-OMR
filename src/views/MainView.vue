@@ -77,7 +77,7 @@ const logout = () => {
         <v-divider></v-divider>
 
         <v-list dense nav>
-          <div>{{ loginStore.role }}</div>
+          <!-- <div>{{ loginStore.role }}</div> -->
           <v-list-item prepend-icon="mdi-home" title="หน้าหลัก" value="starred" to="/"></v-list-item>
           <v-list-item prepend-icon="mdi-folder" title="1: สร้างวิชา"  to="/subject"></v-list-item>
           <v-list-item prepend-icon="mdi-folder-plus" title="2: สร้างชุดข้อสอบ" to="/createExam"></v-list-item>
