@@ -13,14 +13,27 @@ const form = ref(null);
 const Username = ref(null);
 const Password = ref(null);
 const valid = ref(true);
+const error = ref('');
 
 const login = async () => {
-  const { valid: formValid } = await form.value.validate();
-  if (formValid) {
-    loginStore.login(Username.value, Password.value);
-    console.log("form success");
-    // emit("login", Username.value)
-  }
+    const { valid: formValid } = await form.value.validate();
+    if (formValid) {
+        try {
+            await loginStore.login(Username.value, Password.value);
+            console.log("form success");
+            // emit("login", Username.value)
+        } catch (e) {
+            error.value = e.message ;
+            // error.value = e.message || 'Username or password is incorrect';
+
+            console.log(error.value)
+        }
+    }
+    else {
+        // alert('Username or password is incorrect')
+        error.value = 'Username and password are required';
+        console.log(error.value)
+    }
 };
 </script>
 
@@ -50,13 +63,13 @@ const login = async () => {
                                         :rules="[v => !!v || 'Password is required']">
                                     </v-text-field>
                                 </v-col>
-                                <!-- <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert> -->
-                                <div class="text-caption text-center">
+                                <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
+                                <!-- <div class="text-caption text-center">
                                     <p class="grey">
                                         Don't you have account?<router-link to="/register"
                                             class="linkregis">&nbsp;&nbsp;Register here.</router-link>
                                     </p>
-                                </div>
+                                </div> -->
                             </v-form>
                         </v-card-text>
                         <v-card-actions class="align-content-xl-center justify-center">

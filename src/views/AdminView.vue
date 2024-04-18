@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useAdminLoginStore } from '@/stores/loginAdmin'
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const AdminloginStore = useAdminLoginStore()
 
 const theme = ref('light')
@@ -13,6 +15,7 @@ function onClick() {
 const logout = () => {
   // emit("logout")
   AdminloginStore.adminLogout()
+  router.push({ path: '/' });
 }
 
 </script>
@@ -37,15 +40,15 @@ const logout = () => {
         <v-list>
           <v-list-item
             prepend-avatar="https://as1.ftcdn.net/v2/jpg/05/53/79/60/1000_F_553796090_XHrE6R9jwmBJUMo9HKl41hyHJ5gqt9oz.jpg"
-            :title="AdminloginStore.adminUsername" to="/adminProfile">
+            :title="AdminloginStore.adminUsername">
           </v-list-item>
         </v-list>
         <v-divider></v-divider>
 
         <v-list dense nav>
 
-          <v-list-item prepend-icon="mdi-home" title="หน้าหลัก" value="starred" to="/addAdmin"></v-list-item>
-          <!-- <v-list-item prepend-icon="mdi-folder" title="1: สร้างวิชา" to="/subject"></v-list-item> -->
+          <v-list-item prepend-icon="mdi-account-box-edit-outline" title="จัดการบัญชีผู้ใช้งาน" to="/manageUser"></v-list-item>
+          <!-- <v-list-item prepend-icon="mdi-account-plus" title="เพิ่มผู้ดูแล" value="starred" to="/addAdmin"></v-list-item> -->
         </v-list>
 
       </v-navigation-drawer>

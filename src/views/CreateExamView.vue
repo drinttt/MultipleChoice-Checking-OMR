@@ -115,12 +115,12 @@ button[type="submit"]:hover {
 
   
         <div class="form-group">
-          <label for="nameExam">Name Exam:</label>
+          <label for="nameExam">Exam Name:</label>
           <input type="text" id="nameExam" v-model="exam.name_exam" required>
         </div>
   
         <div class="form-group">
-          <label for="qtyExam">Quantity Exam:</label>
+          <label for="qtyExam"> No. of questions:</label>
           <input type="number" id="qtyExam" v-model.number="exam.qty_exam" required min="1">
         </div>
 

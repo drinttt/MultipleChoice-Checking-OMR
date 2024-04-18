@@ -99,6 +99,11 @@ const router = createRouter({
       name: 'addAdmin',
       component: () => import('../views/addAdmin.vue')
     },
+    {
+      path: '/manageUser',
+      name: 'manageUser',
+      component: () => import('../views/manageUser.vue')
+    },
   ]
 })
 

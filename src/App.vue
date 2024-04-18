@@ -31,7 +31,7 @@ onMounted(() => {
       <v-tabs v-model="tab" background-color="transparent">
         <v-tab value="login">Login</v-tab>
         <v-tab value="register">Register</v-tab>
-        <v-tab value="loginAdmin">Admin</v-tab>
+        <v-tab value="adminLogin">Admin</v-tab>
       </v-tabs>
 
       <v-tab-item value="login" v-if="tab === 'login'">
@@ -42,18 +42,23 @@ onMounted(() => {
         <RegisterView />
       </v-tab-item>
 
-      <v-tab-item value="loginAdmin" v-if="tab === 'loginAdmin'">
+      <v-tab-item value="adminLogin" v-if="tab === 'adminLogin'">
         <loginAdmin />
       </v-tab-item>
     </v-card>
   </div>
 
-  <div v-else-if="loginStore.isLogin && !AdminloginStore.isAdminLoggedIn">
-    <AdminView @logout="AdminloginStore.adminLogout" :adminUsername="AdminloginStore.adminUsername" />
-  </div>
-
   <div v-else-if="!loginStore.isLogin && AdminloginStore.isAdminLoggedIn">
     <MainView @logout="loginStore.logout" :Username="loginStore.Username" />
+  </div>
+
+  <!-- <div v-else-if="loginStore.isLogin && !AdminloginStore.isAdminLoggedIn">
+    <AdminView @logout="AdminloginStore.adminLogout" :adminUsername="AdminloginStore.adminUsername" />
+  </div> -->
+
+
+  <div v-else>
+    <AdminView @logout="AdminloginStore.adminLogout" :Username="AdminloginStore.adminUsername" />
   </div>
 
 </template>

@@ -40,13 +40,13 @@ const login = async () => {
                         <v-card-text class="justify-center">
                             <v-form class="justify-center" ref="form" v-model="valid">
                                 <v-col cols="12" class="justify-center">
-                                    <v-text-field type="text" label="adminUsername" v-model="adminUsername"
+                                    <v-text-field type="text" label="Username" v-model="adminUsername"
                                         prepend-inner-icon="mdi-account" variant="outlined" required class="headlogin"
-                                        :rules="[v => !!v || 'adminUsername is required']">
+                                        :rules="[v => !!v || 'Username is required']">
                                     </v-text-field><br />
-                                    <v-text-field type="password" label="adminPassword" v-model="adminPassword"
+                                    <v-text-field type="password" label="Password" v-model="adminPassword"
                                         prepend-inner-icon="mdi-lock" variant="outlined" required class="headlogin"
-                                        :rules="[v => !!v || 'adminPassword is required']">
+                                        :rules="[v => !!v || 'Password is required']">
                                     </v-text-field>
                                 </v-col>
                                 <!-- <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert> -->

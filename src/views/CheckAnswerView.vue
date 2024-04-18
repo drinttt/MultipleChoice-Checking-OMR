@@ -11,9 +11,9 @@
           </option>
         </select>
       </div>
-      <div>
-        <button type="button" @click="runPythonScript">ตรวจคำตอบ (กระดาษคำตอบ 50 ข้อ)</button>
-      </div>
+      <!-- <div>
+        <button type="button" @click="runPythonScript">ตรวจคำตอบ (สำหรับกระดาษวิชา IS)</button>
+      </div> -->
       <br>
       <div>
         <button type="button" @click="runPythonScript_100">ตรวจคำตอบ (กระดาษคำตอบ 100 ข้อ)</button>

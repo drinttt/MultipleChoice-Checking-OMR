@@ -12,14 +12,17 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="section">Section:</label>
                 <input type="text" id="section" v-model="section" required>
-            </div>
+            </div> -->
 
             <div class="form-group">
                 <label for="excelFile">Upload Excel File:</label>
                 <input type="file" id="excelFile" ref="file" accept=".xls,.xlsx" required>
+                <a href="\src\template\template_listOfStd.xlsx" download="template_addAnswer.xlsx" 
+                    style="color: blue; font-weight: bold; font-size: smaller; font-style: italic;">
+                    ดาวน์โหลดเทมเพลตในการอัปโหลดรายชื่อนักศึกษา</a>
             </div>
 
             <button type="submit">Upload</button>
@@ -36,7 +39,7 @@ export default {
     data() {
         return {
             selectedSubject: '',
-            section: '',
+            // section: '',
             file: null,
             codeSubjects: [],
             exam: {
@@ -147,7 +150,7 @@ export default {
                             no_student: row['ลำดับ'],
                             id_student: row['เลขประจำตัวนักศึกษา'],
                             st_name: row['ชื่อ'],
-                            section: this.section
+                            // section: this.section
                         };
 
                         await axios.post("http://localhost/api/uploadStudentList.php", dataToSend, {

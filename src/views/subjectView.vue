@@ -262,22 +262,22 @@ button[type="submit"]:hover {
       <form @submit.prevent="submitSubject">
   
         <div class="form-group">
-          <label for="nameSubject">ชื่อวิชา:</label>
+          <label for="nameSubject">Subject Name:</label>
           <input type="text" id="nameSubject" v-model="subject.name_subject" required>
         </div>
   
         <div class="form-group">
-          <label for="idSubject">รหัสวิชา:</label>
+          <label for="idSubject">ID Subject:</label>
           <input type="text" id="idSubject" v-model.number="subject.id_subject" required>
         </div>
 
         <div class="form-group">
-          <label for="year">ปีการศึกษา:</label>
+          <label for="year">Year:</label>
           <input type="text" id="year" v-model.number="subject.year" required>
         </div>
 
         <div class="form-group">
-          <label for="term">เทอม:</label>
+          <label for="term">Term:</label>
           <input type="text" id="term" v-model.number="subject.term" required>
         </div>
   

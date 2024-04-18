@@ -58,7 +58,7 @@ export default {
 
 <template>
     <div class='check-body'>
-        <h1>อัปโหลดรูปกระดาษคำตอบ</h1>
+        <h1>Upload Answer sheet</h1>
         <form @submit.prevent="submitFiles">
             <div class="form-group">
                 <label for="idexam">Subject - Exam:</label>
@@ -77,6 +77,7 @@ export default {
                 <a style="color: red; font-weight: bold; font-size: smaller; font-style: italic;">
                     หมายเหตุ: ชื่อไฟล์รูปภาพต้องเป็นเลขลำดับตามใบรายชื่อ ตัวอย่างเช่น ลำดับที่ 1 นายใจดี ดีใจ รหัสนักศึกษา 6304062630077 ชื่อไฟล์รูปคือ 1.jpg</a>
             </div>
+            <br/>
             <button type="submit">Upload</button>
         </form>
     </div>

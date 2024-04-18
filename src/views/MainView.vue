@@ -4,6 +4,9 @@ import { ref } from 'vue'
 
 import { useloginStore } from '@/stores/login'
 import { useUserProfileStore } from '@/stores/profile'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const loginStore = useloginStore()
 const userStore = useUserProfileStore()
@@ -23,6 +26,7 @@ function onClick() {
 const logout = () => {
   // emit("logout")
   loginStore.logout()
+  router.push({ path: '/' });
 }
 </script>
 
