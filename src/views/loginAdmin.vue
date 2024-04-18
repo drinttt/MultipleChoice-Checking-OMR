@@ -3,6 +3,9 @@
 import { ref, } from 'vue';
 // import { useloginStore } from '@/stores/login'
 import { useAdminLoginStore } from '@/stores/loginAdmin'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const AdminloginStore = useAdminLoginStore()
 // const emit = defineEmits(['login']);
@@ -21,6 +24,7 @@ const login = async () => {
         AdminloginStore.adminLogin(adminUsername.value, adminPassword.value);
         console.log("form success");
         // emit("login", adminUsername.value)
+        router.push({ name: 'manageUser' });
         } catch (e) {
             error.value = e.message ;
             // error.value = e.message || 'Username or password is incorrect';

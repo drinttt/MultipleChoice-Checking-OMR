@@ -2,7 +2,9 @@
 // import { ref, defineEmits } from 'vue';
 import { ref, } from 'vue';
 import { useloginStore } from '@/stores/login'
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 
 
 const loginStore = useloginStore();
@@ -22,6 +24,7 @@ const login = async () => {
             await loginStore.login(Username.value, Password.value);
             console.log("form success");
             // emit("login", Username.value)
+            router.push({ name: 'home' });
         } catch (e) {
             error.value = e.message ;
             // error.value = e.message || 'Username or password is incorrect';

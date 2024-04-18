@@ -62,7 +62,7 @@ const deleteItem = async (item) => {
   // ถามผู้ใช้เพื่อยืนยันการลบ
   if (confirm(`คุณต้องการลบข้อมูลนักศึกษา ${item.username} หรือไม่?`)) {
     try {
-      await axios.post('http://localhost/api/deleteUser.php', { id_exam: item.id_exam, id_student: item.id_student });
+      await axios.post('http://localhost/api/deleteUser.php', { username: item.username });
       // ลบรายการนั้นออกจาก examDetails
       users.value = users.value.filter(d => d.username !== item.username);
       // แสดง alert หลังจากลบข้อมูลสำเร็จ

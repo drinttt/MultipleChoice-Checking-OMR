@@ -24,20 +24,31 @@ export default {
         }
     },
     methods: {
-      async checkUsername(username) {
-        try {
-            const response = await axios.get(`http://localhost/api/checkUsername.php?username=${username}`);
-            this.usernameExists = response.data.exists; // Set based on API response
-        } catch (error) {
-            console.error('Error checking username:', error);
-            this.usernameExists = false; // Assume username does not exist if there is an error
-        }
-      },
+        async checkUsername(username) {
+            try {
+                const response = await axios.get(`http://localhost/api/checkUsername.php?username=${username}`);
+                this.usernameExists = response.data.exists; // Set based on API response
+            } catch (error) {
+                console.error('Error checking username:', error);
+                this.usernameExists = false; // Assume username does not exist if there is an error
+            }
+        },
         async submitForm() {
             // if (this.usernameExists) {
             //     alert('Username already taken. Please choose a different one.');
             //     return; // Prevent form submission if username exists
             // }
+            if (!this.user.username || !this.user.password || !this.user.name || !this.user.surname || !this.user.email) {
+                alert('Please fill in all required fields.');
+                return; // หยุดการส่งข้อมูลหากข้อมูลยังไม่ครบ
+            }
+
+            // Check if the username already exists
+            if (this.usernameExists) {
+                alert('Username already taken. Please choose a different one.');
+                return; // หยุดการส่งข้อมูลหาก username ซ้ำกับที่มีอยู่แล้ว
+            }
+
             try {
                 const formData = new FormData();
                 formData.append('username', this.user.username);
@@ -53,7 +64,7 @@ export default {
                     alert('Registration successful');
                     this.$router.push('/login');
                 } else {
-                    alert('An error occurred while registering. Please try again later.');
+                    alert('This Username is already in use.');
                 }
             } catch (error) {
                 console.error('Error registering:', error);
@@ -85,32 +96,32 @@ export default {
                                     <v-col cols="12" class="justify-center">
 
                                         <v-text-field type="text" label="Username" v-model="user.username"
-                                          prepend-inner-icon="mdi-account" variant="outlined" required class="headlogin"
-                                          :rules="[v => !!v || 'Username is required',v => !usernameExists || 'Username นี้มีคนใช้แล้ว']">
+                                            prepend-inner-icon="mdi-account" variant="outlined" required
+                                            class="headlogin"
+                                            :rules="[v => !!v || 'Username is required', v => !usernameExists || 'Username นี้มีคนใช้แล้ว']">
                                         </v-text-field>
 
                                         <v-text-field type="password" label="Password" v-model="user.password"
-                                          prepend-inner-icon="mdi-lock" variant="outlined" required class="headlogin"
-                                          :rules="[v => !!v || 'Password is required']">
+                                            prepend-inner-icon="mdi-lock" variant="outlined" required class="headlogin"
+                                            :rules="[v => !!v || 'Password is required']">
                                         </v-text-field>
 
                                         <v-row>
-                                            <v-col cols="6">                                          
+                                            <v-col cols="6">
                                                 <v-text-field type="text" label="Name" v-model="user.name"
-                                                  variant="outlined" required class="headlogin"
-                                                  :rules="[v => !!v || 'Name is required']">
+                                                    variant="outlined" required class="headlogin"
+                                                    :rules="[v => !!v || 'Name is required']">
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="6">
                                                 <v-text-field type="text" label="Surname" v-model="user.surname"
-                                                  variant="outlined" required class="headlogin"
-                                                  :rules="[v => !!v || 'Surname is required']">
+                                                    variant="outlined" required class="headlogin"
+                                                    :rules="[v => !!v || 'Surname is required']">
                                                 </v-text-field>
                                             </v-col>
                                         </v-row>
-                                        <v-text-field type="email" label="Email" v-model="user.email"
-                                          variant="outlined" required class="headlogin"
-                                          :rules="[v => !!v || 'Email is required']">
+                                        <v-text-field type="email" label="Email" v-model="user.email" variant="outlined"
+                                            required class="headlogin" :rules="[v => !!v || 'Email is required']">
                                         </v-text-field>
                                     </v-col>
                                 </v-form>
