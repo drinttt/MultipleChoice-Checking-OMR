@@ -12,13 +12,26 @@ const form = ref(null);
 const adminUsername = ref(null);
 const adminPassword = ref(null);
 const valid = ref(true);
+const error = ref('');
 
 const login = async () => {
     const { valid: formValid } = await form.value.validate();
     if (formValid) {
+        try{
         AdminloginStore.adminLogin(adminUsername.value, adminPassword.value);
         console.log("form success");
         // emit("login", adminUsername.value)
+        } catch (e) {
+            error.value = e.message ;
+            // error.value = e.message || 'Username or password is incorrect';
+
+            console.log(error.value)
+        }
+    }
+    else {
+        // alert('Username or password is incorrect')
+        error.value = 'Username and password are required';
+        console.log(error.value)
     }
 };
 </script>
@@ -49,7 +62,7 @@ const login = async () => {
                                         :rules="[v => !!v || 'Password is required']">
                                     </v-text-field>
                                 </v-col>
-                                <!-- <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert> -->
+                                <v-alert v-if="error" type="error" class="mb-4">{{ error }}</v-alert>
                                 <!-- <div class="text-caption text-center">
                                     <p class="grey">
                                         Don't you have account?<router-link to="/register"
