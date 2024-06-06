@@ -50,6 +50,6 @@ The file "omr_process_100.py" serves as the main code for checking exams with 1-
 
 ### Xampp
 
-- omr_process_100.py line 17 and 144
+- "omr_process_100.py" line 17 and 144
 - "showImgStd.php" line 14 in "api/runPythonScript.php"
 - "runPythonScript.php" line 15 in "api/runPythonScript.php"
