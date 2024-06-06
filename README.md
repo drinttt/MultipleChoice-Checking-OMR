@@ -39,8 +39,10 @@ We use XAMPP as a server emulator. You can place the "api" folder in the directo
 
 ## Running OMR in Python without Using a Web Interface
 ![image](https://github.com/drinttt/MultipleChoice-Checking-OMR-WebApp/assets/94664541/aa851bfd-1169-4692-9853-869fa7672428)
-You can run python directly by editing the code in the file named gg.py by commenting out lines 17-18. and close comments on lines 9-14
+
+You can run python directly by editing the code in the file named omr_process_100.py by commenting out lines 17-18. and close comments on lines 9-14
 
 ![image](https://github.com/drinttt/MultipleChoice-Checking-OMR-WebApp/assets/94664541/0ba2cf41-d522-4c7f-8046-ab499eb5cf23)
-For the "exam_id" folder, which is used to store images of the exam papers that need to be processed, it should be named exactly as "xampp/htdocs/api/upload/exam_id".
+
+The folder name "xampp/htdocs/api/upload/exam_id" should match the variable name "exam_id" used in the code. In this context, "exam_id" refers to the variable name used to store the ID of the exam.
 
