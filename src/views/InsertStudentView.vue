@@ -31,7 +31,7 @@ export default {
                 id_exam: '',
             },
             idexams: [],
-            imageUrls: [] // Updated to hold multiple image URLs
+            imageUrls: [] // Updated to hold multiple image URLs.
         };
     },
     mounted() {
