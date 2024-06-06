@@ -77,7 +77,6 @@ export default {
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
-  /* เพิ่มเลือกเข้ามาในการปรับแต่ง */
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
