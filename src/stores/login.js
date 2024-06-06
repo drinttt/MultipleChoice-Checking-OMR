@@ -28,7 +28,7 @@ export const useloginStore = defineStore('login', () => {
       }
     } catch (error) {
       console.error('Login failed:', error)
-      throw error // ส่งต่อ error ไปยัง component ที่เรียกใช้
+      throw error
     }
   }
 
