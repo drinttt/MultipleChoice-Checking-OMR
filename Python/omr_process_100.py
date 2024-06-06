@@ -6,16 +6,16 @@ import os
 import re
 import math
 # Check if enough arguments are provided
-# if len(sys.argv) < 3:
-#     print("Usage: python script.py <path_to_save_images> <exam_id>")
-#     sys.exit(1)
+if len(sys.argv) < 3:
+    print("Usage: python script.py <path_to_save_images> <exam_id>")
+    sys.exit(1)
 
-# save_images_path = sys.argv[1] 
-# exam_id = sys.argv[2] 
+save_images_path = sys.argv[1] 
+exam_id = sys.argv[2] 
 
 #17-18 for run in python and comment line 9-14
-save_images_path = 'C://xampp//htdocs//api//result'
-exam_id = "33c2a3"
+# save_images_path = 'C://xampp//htdocs//api//result'
+# exam_id = "33c2a3"
 
 # Connect to MySQL database
 connection = mysql.connector.connect(
