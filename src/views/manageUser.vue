@@ -44,7 +44,6 @@ const saveAns = async () => {
   try {
     await axios.post('http://localhost/api/editUserData.php', editedItem.value);
     editDialog.value = false;
-    // รีโหลดข้อมูลตารางหรืออัพเดท UI หากจำเป็น
     fetchData();
   } catch (error) {
     console.error("Error updating score:", error);

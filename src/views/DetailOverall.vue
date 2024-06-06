@@ -27,14 +27,13 @@ const headers = ref([
   { title: 'Totol Score', value: 'total_score' },
   { text: 'Actions', value: 'action', sortable: false },
 
-  // กำหนดคอลัมน์อื่นๆ ตามที่ต้องการ
 ]);
 
 const fetchData = async () => {
   try {
     const response = await axios.get(`http://localhost/api/getExamDetailTable.php?id_exam=${id_exam}`);
     examDetails.value = response.data;
-    // กำหนด sections โดยไม่ต้องใช้ forEach, เพื่อความเรียบง่ายและประสิทธิภาพ
+    // กำหนด sections โดยไม่ต้องใช้ forEach
     sections.value = ["All", ...new Set(response.data.map(item => item.section))];
   } catch (error) {
     console.error('เกิดข้อผิดพลาดในการดึงข้อมูลรายละเอียดการสอบ:', error);
@@ -42,7 +41,7 @@ const fetchData = async () => {
 };
 
 onMounted(() => {
-  fetchData(); // เรียกใช้ fetchData เพื่อโหลดข้อมูลแรกเริ่ม
+  fetchData(); 
 });
 
 
@@ -69,11 +68,10 @@ const MoreItem = (item) => {
 
 const exportToExcel = () => {
   const ws = XLSX.utils.json_to_sheet(filteredDetails.value.map(item => ({
+    'No.': item.no_student,
     'Student ID': item.id_student,
     'Student Name': item.st_name,
-    // 'Section': item.section,
     'Total Score': item.total_score,
-    // คุณสามารถเพิ่มหรือลบฟิลด์ได้ตามต้องการ
   })));
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Exam Details");
@@ -83,43 +81,21 @@ const exportToExcel = () => {
 
 const openEditDialog = (item) => {
   editedItem.value = { ...item };
-  editedScore.value = item.total_score; // ตั้งค่าคะแนนเริ่มต้นให้กับแบบฟอร์ม
-  editDialog.value = true; // เปิดไดอะล็อก
+  editedScore.value = item.total_score; 
+  editDialog.value = true;
 };
 
 const saveScore = async () => {
   const updatedItem = { ...editedItem.value, total_score: editedScore.value };
   try {
     await axios.post('http://localhost/api/editStudentScore.php', updatedItem);
-    editDialog.value = false; // ปิดไดอะล็อกหลังจากแก้ไขสำเร็จ
-    // รีโหลดข้อมูลตารางหรืออัพเดท UI หากจำเป็น
+    editDialog.value = false;
+    
     fetchData();
   } catch (error) {
     console.error("Error updating score:", error);
   }
 };
-
-// const deleteItem = async (item) => {
-//   // ถามผู้ใช้เพื่อยืนยันการลบ
-//   if (confirm(`คุณต้องการลบข้อมูลนักศึกษา ${item.id_student} หรือไม่?`)) {
-//     try {
-//       await axios.post('http://localhost/api/deleteStudent.php', { id_exam: item.id_exam, id_student: item.id_student });
-//       // ลบรายการนั้นออกจาก examDetails
-//       examDetails.value = examDetails.value.filter(d => d.id_student !== item.id_student);
-//       // แสดง alert หลังจากลบข้อมูลสำเร็จ
-//       alert('นักศึกษาถูกลบเรียบร้อยแล้ว');
-//       console.log(item.id_student)
-//     } catch (error) {
-//       console.error('เกิดข้อผิดพลาดในการลบนักศึกษา:', error);
-//       // แสดง alert หากมีข้อผิดพลาด
-//       alert('เกิดข้อผิดพลาดในการลบนักศึกษา');
-//     }
-//   }
-// };
-
-
-
-
 </script>
 
 

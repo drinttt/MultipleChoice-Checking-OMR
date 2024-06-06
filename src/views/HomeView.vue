@@ -78,11 +78,11 @@ const deleteSubject = async (code_subject) => {
             axios.post("http://localhost/api/deleteSubject.php", { code_subject: code_subject })
                 .then(response => {
                     console.log('Subject deleted successfully:', response.data);
-                    // ทำสิ่งที่คุณต้องการหลังจากลบข้อมูลอย่างสำเร็จ
+                    
                 })
                 .catch(error => {
                     console.error('Error deleting Subject:', error);
-                    // จัดการข้อผิดพลาดที่เกิดขึ้น
+                   
                 });
 
             // subjectStore.fetchUserSubject()

@@ -8,22 +8,34 @@ import { useRoute, } from 'vue-router';
 const route = useRoute();
 
 const editDialog = ref(false);
+// const editDialogKey = ref(false);
 const editedItem = ref({});
+// const editedItemKey = ref({});
 const editedAns = ref(0);
+// const editedAnsKey = ref(0);
 
 
 // const router = useRouter();
-const id_exam = route.params.id_exam; // รับค่า id_exam จาก route parameters
+const id_exam = route.params.id_exam;
 const id_student = route.params.id_student;
 
 const AnsDetails = ref([]);
-const selectedSection = ref("All"); // ตัวแปรสำหรับเก็บ Section ที่เลือก
+const keys = ref([]);
+
+const selectedSection = ref("All");
+const selectedKey = ref("All");
 const studentImage = ref('');
 
 const headers = ref([
     { title: 'No.', value: 'no_student_answer' },
-    { title: 'Answer', value: 'student_answer' },
+    { title: 'Student Answer', value: 'student_answer' },
     { text: 'Actions', value: 'action', sortable: false },
+]);
+
+const headersKey = ref([
+    { title: 'No.', value: 'no_answer_key' },
+    { title: 'Answer Key', value: 'answer_key' },
+    // { text: 'Actions', value: 'action', sortable: false },
 ]);
 
 const fetchData = async () => {
@@ -37,6 +49,9 @@ const fetchData = async () => {
         if (imgResponse.data && imgResponse.data.url) {
             studentImage.value = imgResponse.data.url; // กำหนด URL รูปภาพ
         }
+
+        const responseKey = await axios.get(`http://localhost/api/getAnsKey.php?id_exam=${id_exam}`);
+        keys.value = responseKey.data;
     } catch (error) {
         filteredDetails
         console.error('เกิดข้อผิดพลาดในการดึงข้อมูลรายละเอียดการสอบ:', error);
@@ -48,22 +63,38 @@ onMounted(() => {
 });
 
 const openEditDialog = (item) => {
-  editedItem.value = { ...item };
-  editedAns.value = item.student_answer; // ตั้งค่าคะแนนเริ่มต้นให้กับแบบฟอร์ม
-  editDialog.value = true; // เปิดไดอะล็อก
+    editedItem.value = { ...item };
+    editedAns.value = item.student_answer; // ตั้งค่าคะแนนเริ่มต้นให้กับแบบฟอร์ม
+    editDialog.value = true; // เปิดไดอะล็อก
 };
+// const openEditDialogKey = (item) => {
+//     editedItemKey.value = { ...item };
+//     editedAnsKey.value = item.answer_key; // ตั้งค่าคะแนนเริ่มต้นให้กับแบบฟอร์ม
+//     editDialogKey.value = true; // เปิดไดอะล็อก
+// };
+
 
 const saveAns = async () => {
-  const updatedItem = { ...editedItem.value, student_answer: editedAns.value };
-  try {
-    await axios.post('http://localhost/api/editStudentAns.php', updatedItem);
-    editDialog.value = false; // ปิดไดอะล็อกหลังจากแก้ไขสำเร็จ
-    // รีโหลดข้อมูลตารางหรืออัพเดท UI หากจำเป็น
-    fetchData();
-  } catch (error) {
-    console.error("Error updating score:", error);
-  }
+    const updatedItem = { ...editedItem.value, student_answer: editedAns.value };
+    try {
+        await axios.post('http://localhost/api/editStudentAns.php', updatedItem);
+        editDialog.value = false;
+        fetchData();
+    } catch (error) {
+        console.error("Error updating score:", error);
+    }
 };
+
+// const saveAnsKey = async () => {
+//     const updatedItemKey = { ...editedItemKey.value, answer_key: editedAnsKey.value };
+//     try {
+//         await axios.post('http://localhost/api/editAnsKey.php', updatedItemKey);
+//         editDialogKey.value = false; 
+//         fetchData();
+//     } catch (error) {
+//         console.error("Error updating score:", error);
+//     }
+// };
 
 const filteredDetails = computed(() => {
     return selectedSection.value === "All"
@@ -71,46 +102,11 @@ const filteredDetails = computed(() => {
         : AnsDetails.value.filter((detail) => detail.section === selectedSection.value);
 });
 
-
-// const exportToExcel = () => {
-//   const ws = XLSX.utils.json_to_sheet(filteredDetails.value.map(item => ({
-//     'no': item.id_student,
-//     'answer': item.st_name,
-//     'Section': item.section,
-//     'Total Score': item.total_score,
-//     // คุณสามารถเพิ่มหรือลบฟิลด์ได้ตามต้องการ
-//   })));
-//   const wb = XLSX.utils.book_new();
-//   XLSX.utils.book_append_sheet(wb, ws, "Exam Details");
-//   XLSX.writeFile(wb, "exam_details.xlsx");
-// };
-
-
-// const openEditDialog = (item) => {
-//   editedItem.value = { ...item };
-//   editedScore.value = item.total_score; // ตั้งค่าคะแนนเริ่มต้นให้กับแบบฟอร์ม
-//   editDialog.value = true; // เปิดไดอะล็อก
-// };
-
-
-
-// const deleteItem = async (item) => {
-//   // ถามผู้ใช้เพื่อยืนยันการลบ
-//   if (confirm(`คุณต้องการลบข้อมูลนักศึกษา ${item.id_student} หรือไม่?`)) {
-//     try {
-//       await axios.post('http://localhost/api/deleteStudent.php', { id_exam: item.id_exam, id_student: item.id_student });
-//       // ลบรายการนั้นออกจาก examDetails
-//       examDetails.value = examDetails.value.filter(d => d.id_student !== item.id_student);
-//       // แสดง alert หลังจากลบข้อมูลสำเร็จ
-//       alert('นักศึกษาถูกลบเรียบร้อยแล้ว');
-//       console.log(item.id_student)
-//     } catch (error) {
-//       console.error('เกิดข้อผิดพลาดในการลบนักศึกษา:', error);
-//       // แสดง alert หากมีข้อผิดพลาด
-//       alert('เกิดข้อผิดพลาดในการลบนักศึกษา');
-//     }
-//   }
-// };
+const filteredKey = computed(() => {
+    return selectedKey.value === "All"
+        ? keys.value
+        : keys.value.filter((detail) => detail.section === selectedKey.value);
+});
 
 
 
@@ -130,39 +126,30 @@ const filteredDetails = computed(() => {
         </v-row>
 
         <v-row>
-            <!-- <v-col cols="4">
-        <v-select v-model="selectedSection" :items="sections" label="Select Section"
-          @change="filterBySection"></v-select>
-      </v-col> -->
-            <!-- <v-col cols="2">
-        <v-btn color="blue" @click="exportToExcel">Export Excel</v-btn>
-      </v-col> -->
-
-            <!-- <v-col cols="4">
-        <v-select v-model="selectedSection" :items="sections" label="Select Section"
-          @change="filterBySection"></v-select>
-      </v-col> -->
-        </v-row>
-
-
-        <v-row>
             <v-col cols="7">
-                <img v-if="studentImage" :src="studentImage" alt="Student Image"  style="width: 600px; height: auto;" />
+                <img v-if="studentImage" :src="studentImage" alt="Student Image" style="width: 600px; height: auto;" />
             </v-col>
             <!-- <v-col cols="2"></v-col> -->
-            <v-col cols="4" class="mt-14">
+            <v-col cols="2" class="mt-14">
+                <v-row class="mt-14 mr-0">
+                    <v-data-table :headers="headersKey" :items="filteredKey" :items-per-page="10" class="elevation-1">
+                        <template v-slot:[`item.action`]="{ item }">
+                            <v-icon small class="mr-2" @click="openEditDialogKey(item)">
+                                mdi-pencil
+                            </v-icon>
+                        </template>
+                    </v-data-table>
+                </v-row>
+            </v-col>
+            <v-col cols="1.5" class="mt-14">
                 <v-row class="mt-14">
-                <v-data-table :headers="headers" :items="filteredDetails" :items-per-page="10" class="elevation-1">
-
-                    <template v-slot:[`item.action`]="{ item }">
-                        <v-container>
+                    <v-data-table :headers="headers" :items="filteredDetails" :items-per-page="10" class="elevation-1">
+                        <template v-slot:[`item.action`]="{ item }">
                             <v-icon small class="mr-2" @click="openEditDialog(item)">
                                 mdi-pencil
                             </v-icon>
-                        </v-container>
-                    </template>
-
-                </v-data-table>
+                        </template>
+                    </v-data-table>
                 </v-row>
             </v-col>
         </v-row>
@@ -181,5 +168,19 @@ const filteredDetails = computed(() => {
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <!-- <v-dialog v-model="editDialogKey" persistent max-width="290">
+            <v-card>
+                <v-card-title class="text-h5">แก้ไขเฉลย</v-card-title>
+                <v-card-text>
+                    <v-text-field v-model="editedAnsKey" label="คำตอบ" type="text"></v-text-field>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="saveAnsKey(item)">บันทึก</v-btn>
+                    <v-btn color="red darken-1" text @click="editDialogKey = false">ยกเลิก</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog> -->
     </v-container>
 </template>

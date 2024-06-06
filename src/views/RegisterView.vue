@@ -11,13 +11,13 @@ export default {
                 surname: '',
                 email: ''
             },
-            usernameExists: false, // Flag to check if username exists
+            usernameExists: false, 
         }
     },
     watch: {
         // Watch for changes in the username and call checkUsername method
         'user.username'(newUsername) {
-            this.usernameExists = false; // Reset the flag
+            this.usernameExists = false;
             if (newUsername) {
                 this.checkUsername(newUsername);
             }
@@ -40,10 +40,9 @@ export default {
             // }
             if (!this.user.username || !this.user.password || !this.user.name || !this.user.surname || !this.user.email) {
                 alert('Please fill in all required fields.');
-                return; // หยุดการส่งข้อมูลหากข้อมูลยังไม่ครบ
+                return;
             }
 
-            // Check if the username already exists
             if (this.usernameExists) {
                 alert('Username already taken. Please choose a different one.');
                 return; // หยุดการส่งข้อมูลหาก username ซ้ำกับที่มีอยู่แล้ว
@@ -98,7 +97,10 @@ export default {
                                         <v-text-field type="text" label="Username" v-model="user.username"
                                             prepend-inner-icon="mdi-account" variant="outlined" required
                                             class="headlogin"
-                                            :rules="[v => !!v || 'Username is required', v => !usernameExists || 'Username นี้มีคนใช้แล้ว']">
+                                            :rules="[v => !!v || 'Username is required', v => !usernameExists || 'Username นี้มีคนใช้แล้ว',
+                                            // v => /[a-z]/.test(v) || 'ต้องมีอย่างน้อยหนึ่งตัวอักษรเล็ก',
+                                            // v => /\d/.test(v) || 'ต้องมีอย่างน้อยหนึ่งตัวเลข'
+                                            ]">
                                         </v-text-field>
 
                                         <v-text-field type="password" label="Password" v-model="user.password"

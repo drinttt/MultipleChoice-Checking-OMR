@@ -51,10 +51,8 @@ const saveChanges = async () => {
                 },
             });
             console.log(response.data);
-            // ดำเนินการต่อเช่น เปลี่ยนเส้นทางผู้ใช้หรือแสดงข้อความยืนยัน
         } catch (error) {
             console.error('Error updating subject:', error);
-            // แสดงข้อความแจ้งเตือนให้ผู้ใช้ทราบว่ามีข้อผิดพลาด
         }
 
     alert("แก้ไขเรียบร้อย")
@@ -64,7 +62,6 @@ const saveChanges = async () => {
 };
 
 function goBack() {
-    // คำสั่งนี้จะทำให้ browser ย้อนกลับไปยังหน้าก่อนหน้า
     history.back()
 }
 

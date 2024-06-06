@@ -12,11 +12,32 @@
         </select>
       </div>
       <!-- <div>
-        <button type="button" @click="runPythonScript">ตรวจคำตอบ (สำหรับกระดาษวิชา IS)</button>
+        <button type="button" @click="runPythonScript" :disabled="isLoading50">
+          <span v-if="isLoading50">
+            <span class="mr-2">ตรวจคำตอบ (สำหรับกระดาษวิชา IS)</span><v-icon>mdi-loading mdi-spin</v-icon>
+          </span>
+          <span v-else>
+            <span class="mr-2">ตรวจคำตอบ (สำหรับกระดาษวิชา IS)</span>
+            <span v-if="isLoading50">
+              <v-icon>mdi-loading mdi-spin</v-icon>
+            </span>
+          </span>
+        </button>
       </div> -->
-      <br>
+      <!-- <br> -->
       <div>
-        <button type="button" @click="runPythonScript_100">ตรวจคำตอบ (กระดาษคำตอบ 100 ข้อ)</button>
+        <!-- <button type="button" @click="runPythonScript_100">ตรวจคำตอบ (กระดาษคำตอบ 100 ข้อ)</button> -->
+        <button type="button" @click="runPythonScript_100" :disabled="isLoading">
+          <span v-if="isLoading">
+            <span class="mr-2">ตรวจคำตอบ</span><v-icon>mdi-loading mdi-spin</v-icon>
+          </span>
+          <span v-else>
+            <span class="mr-2">ตรวจคำตอบ</span>
+            <span v-if="isLoading">
+              <v-icon>mdi-loading mdi-spin</v-icon>
+            </span>
+          </span>
+        </button>
       </div>
     </form>
   </div>
@@ -34,6 +55,8 @@ export default {
         id_exam: '',
       },
       idexams: [],
+      isLoading: false,
+      isLoading50: false,
     };
   },
   mounted() {
@@ -50,13 +73,14 @@ export default {
       }
     },
     async runPythonScript() {
+      this.isLoading50 = true;
       try {
         // Include the id_exam in the data object being sent
         const postData = {
-              // scriptPath: 'C:\\OMR_WebApp-main\\omr_process.py',
-              scriptPath: 'D:\\Dear\\IV\\Project\\OMR_WebApp\\pages\\omr_process.py',
-              id_exam: this.exam.id_exam // This line sends the id_exam value to the API
-            };
+          // scriptPath: 'C:\\OMR_WebApp-main\\omr_process.py',
+          scriptPath: 'D:\\Dear\\IV\\Project\\OMR_WebApp\\pages\\omr_process.py',
+          id_exam: this.exam.id_exam // This line sends the id_exam value to the API
+        };
 
         const response = await axios.post('http://localhost/api/runPythonScript.php', postData, {
           headers: {
@@ -64,24 +88,27 @@ export default {
           }
         });
 
-            if (response.data.success) {
-              alert('Python script executed successfully with exam ID: ' + this.exam.id_exam);
-            } else {
-              alert('Failed to execute Python script with exam ID: ' + this.exam.id_exam);
-            }
+        if (response.data.success) {
+          alert('Python script executed successfully with exam ID: ' + this.exam.id_exam);
+        } else {
+          alert('Failed to execute Python script with exam ID: ' + this.exam.id_exam);
+        }
       } catch (error) {
         console.error('Error executing Python script:', error);
         alert('An error occurred while executing the Python script. Exam ID: ' + this.exam.id_exam);
+      } finally {
+        this.isLoading50 = false;
       }
     },
     async runPythonScript_100() {
+      this.isLoading = true;
       try {
         // Include the id_exam in the data object being sent
         const postData = {
-              // scriptPath: 'C:\\OMR_WebApp-main\\omr_process_100.py',
-              scriptPath: 'D:\\Dear\\IV\\Project\\OMR_WebApp\\pages\\omr_process_100.py',
-              id_exam: this.exam.id_exam // This line sends the id_exam value to the API
-            };
+          // scriptPath: 'C:\\OMR_WebApp-main\\omr_process_100.py',
+          scriptPath: 'D:\\Dear\\IV\\Project\\OMR_WebApp\\pages\\omr_process_100.py',
+          id_exam: this.exam.id_exam // This line sends the id_exam value to the API
+        };
 
         const response = await axios.post('http://localhost/api/runPythonScript.php', postData, {
           headers: {
@@ -89,18 +116,21 @@ export default {
           }
         });
 
-            if (response.data.success) {
-              alert('Python script executed successfully with exam ID: ' + this.exam.id_exam);
-            } else {
-              alert('Failed to execute Python script with exam ID: ' + this.exam.id_exam);
-            }
+        if (response.data.success) {
+          alert('Python script executed successfully with exam ID: ' + this.exam.id_exam);
+        } else {
+          alert('Failed to execute Python script with exam ID: ' + this.exam.id_exam);
+        }
       } catch (error) {
         console.error('Error executing Python script:', error);
         alert('An error occurred while executing the Python script. Exam ID: ' + this.exam.id_exam);
       }
+      finally {
+        this.isLoading = false; // ปิดตัวแสดงโหลด
+      }
     }
 
-  }      
+  }
 };
 </script>
 

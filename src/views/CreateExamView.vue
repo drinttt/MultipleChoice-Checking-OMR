@@ -23,7 +23,7 @@ export default {
 
         if (this.exam.qty_exam > 100) {
           alert('The number of questions must not exceed 100.');
-          return; // Stop the form submission if the condition is not met
+          return;
         }
         const formData = new FormData();
         formData.append('code_subject', this.exam.code_subject);

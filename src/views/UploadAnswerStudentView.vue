@@ -10,6 +10,7 @@ export default {
             },
             idexams: [],
             selectedFiles: null, // Store selected files
+            isLoading: false,
         };
     },
     mounted() {
@@ -29,6 +30,8 @@ export default {
             this.selectedFiles = event.target.files; // Store selected files
         },
         async submitFiles() {
+            this.isLoading = true;
+
             if (!this.selectedFiles || this.selectedFiles.length === 0 || !this.exam.id_exam) {
                 alert('Please select files and choose an exam.');
                 return;
@@ -46,9 +49,13 @@ export default {
                 });
                 console.log(response.data); // Handle response
                 alert('Files uploaded successfully!'); // Alert message after successful upload
+
             } catch (error) {
                 console.error('Error uploading files:', error);
                 alert('E'); // Alert message after successful upload
+            }
+            finally {
+                this.isLoading = false; // ปิดตัวแสดงโหลด
             }
         }
 
@@ -78,7 +85,17 @@ export default {
                     หมายเหตุ: ชื่อไฟล์รูปภาพต้องเป็นเลขลำดับตามใบรายชื่อ ตัวอย่างเช่น ลำดับที่ 1 นายใจดี ดีใจ รหัสนักศึกษา 6304062630077 ชื่อไฟล์รูปคือ 1.jpg</a>
             </div>
             <br/>
-            <button type="submit">Upload</button>
+            <button type="submit" :disabled="isLoading">
+                <span v-if="isLoading">
+                    <span class="mr-2">Upload</span><v-icon>mdi-loading mdi-spin</v-icon>
+                </span>
+                <span v-else>
+                    <span class="mr-2">Upload</span>
+                    <span v-if="isLoading">
+                        <v-icon>mdi-loading mdi-spin</v-icon>
+                    </span>
+                </span>
+            </button>
         </form>
     </div>
 </template>

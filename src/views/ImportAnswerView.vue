@@ -15,12 +15,23 @@
             <div class="form-group">
                 <label for="excelFile">Upload Excel File:</label>
                 <input type="file" id="excelFile" ref="file" accept=".xls,.xlsx" required>
-                <a href="\src\template\template_addAnswer.xlsx" download="template_addAnswer.xlsx" 
+                <a href="\src\template\template_addAnswer.xlsx" download="template_addAnswer.xlsx"
                     style="color: blue; font-weight: bold; font-size: smaller; font-style: italic;">
                     ดาวน์โหลดเทมเพลตในการอัปโหลดเฉลย</a>
             </div>
 
-            <button type="submit">Submit</button>
+            <!-- <button type="submit">Submit</button> -->
+            <button type="submit" :disabled="isLoading">
+                <span v-if="isLoading">
+                    <span class="mr-2">Submit</span><v-icon>mdi-loading mdi-spin</v-icon>
+                </span>
+                <span v-else>
+                    <span class="mr-2">Submit</span>
+                    <span v-if="isLoading">
+                        <v-icon>mdi-loading mdi-spin</v-icon>
+                    </span>
+                </span>
+            </button>
         </form>
     </div>
 </template>
@@ -38,6 +49,8 @@ export default {
                 id_exam: '',
             },
             idexams: [],
+            isLoading: false,
+
         };
     },
     mounted() {
@@ -54,11 +67,13 @@ export default {
             }
         },
         async submitExam() {
+            this.isLoading = true;
+
             try {
                 const file = this.$refs.file.files[0];
                 if (!file) {
-                        alert("Please select a file.");
-                        return;
+                    alert("Please select a file.");
+                    return;
                 }
 
                 await axios.post("http://localhost/api/deleteOldAnsKey.php", { id_exam: this.exam.id_exam });
@@ -72,6 +87,16 @@ export default {
                     const json = XLSX.utils.sheet_to_json(worksheet);
                     console.log(json); // Log the Excel data in JSON format
                     for (const row of json) {
+
+                        const expectedColumnNames = ['no_answer_key', 'answer_key'];
+                        const excelColumnNames = Object.keys(json[0]);
+                        for (const columnName of expectedColumnNames) {
+                            if (!excelColumnNames.includes(columnName)) {
+                                alert(`Failed, Please select a file to upload Answer Key.`);
+                                return;
+                            }
+                        }
+
                         const dataToSend = {
                             id_exam: this.exam.id_exam,
                             no_answer_key: row['no_answer_key'],
@@ -87,20 +112,25 @@ export default {
 
                             if (response.data.success) {
                                 // alert(`Data imported successfully for row: no_answer_key=${row['no_answer_key']}, answer_key=${row['answer_key']}`);
-                            } 
+                            }
                         } catch (error) {
                             console.error(`Error sending data for row: ${JSON.stringify(row)} - `, error);
                             // alert(`id_exam=${this.exam.id_exam}, no_answer_key=${row['no_answer_key']}, answer_key=${row['answer_key']}`);
+                        } finally {
+                            this.isLoading = false; // ปิดตัวแสดงโหลด
                         }
                     }
 
                     alert("import answer completed.");
 
-                    };
-                    reader.readAsArrayBuffer(file);
-            }catch (error) {
-                    console.error("Error processing file:", error);
-                    alert("An error occurred while processing the file. Please try again later.");
+                };
+                reader.readAsArrayBuffer(file);
+            } catch (error) {
+                console.error("Error processing file:", error);
+                alert("An error occurred while processing the file. Please try again later.");
+            }
+            finally {
+                this.isLoading = false; // ปิดตัวแสดงโหลด
             }
         }
 
@@ -131,7 +161,8 @@ export default {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    color: black; /* เปลี่ยนสีของข้อความใน drop-down เป็นสีดำ */
+    color: black;
+    /* เปลี่ยนสีของข้อความใน drop-down เป็นสีดำ */
 }
 
 button[type="submit"] {

@@ -1,6 +1,6 @@
 <template>
     <div class="upload-students-view">
-        <h1>Upload List of Students</h1>
+        <h1>Import List of Students</h1>
         <form @submit.prevent="submitList">
             <div class="form-group">
                 <label for="idexam">Exam:</label>
@@ -20,12 +20,23 @@
             <div class="form-group">
                 <label for="excelFile">Upload Excel File:</label>
                 <input type="file" id="excelFile" ref="file" accept=".xls,.xlsx" required>
-                <a href="\src\template\template_listOfStd.xlsx" download="template_addAnswer.xlsx" 
+                <a href="\src\template\template_listOfStd.xlsx" download="template_addAnswer.xlsx"
                     style="color: blue; font-weight: bold; font-size: smaller; font-style: italic;">
                     ดาวน์โหลดเทมเพลตในการอัปโหลดรายชื่อนักศึกษา</a>
             </div>
 
-            <button type="submit">Upload</button>
+            <!-- <button type="submit">Upload</button> -->
+            <button type="submit" :disabled="isLoading">
+                <span v-if="isLoading">
+                    <span class="mr-2">Upload</span><v-icon>mdi-loading mdi-spin</v-icon>
+                </span>
+                <span v-else>
+                    <span class="mr-2">Upload</span>
+                    <span v-if="isLoading">
+                        <v-icon>mdi-loading mdi-spin</v-icon>
+                    </span>
+                </span>
+            </button>
         </form>
     </div>
 </template>
@@ -46,6 +57,8 @@ export default {
                 id_exam: '',
             },
             idexams: [],
+            isLoading: false,
+
         };
     },
     mounted() {
@@ -123,6 +136,8 @@ export default {
         //     }
         // }
         async submitList() {
+            this.isLoading = true;
+
             try {
                 const file = this.$refs.file.files[0];
                 if (!file) {
@@ -144,6 +159,16 @@ export default {
                     const worksheet = workbook.Sheets[sheetName];
                     const json = XLSX.utils.sheet_to_json(worksheet);
 
+
+                    const expectedColumnNames = ['ลำดับ', 'เลขประจำตัวนักศึกษา', 'ชื่อ'];
+                    const excelColumnNames = Object.keys(json[0]);
+                    for (const columnName of expectedColumnNames) {
+                        if (!excelColumnNames.includes(columnName)) {
+                            alert(`Failed, Please select a file to upload list of student.`);
+                            return;
+                        }
+                    }
+
                     for (const row of json) {
                         const dataToSend = {
                             id_exam: this.exam.id_exam,
@@ -161,11 +186,15 @@ export default {
                     }
 
                     alert("Data import process completed. Please check for any errors in the console.");
+                    this.isLoading = false;
                 };
+                
                 reader.readAsArrayBuffer(file);
             } catch (error) {
                 console.error("Error processing file:", error);
                 alert("An error occurred while processing the file. Please try again later.");
+            } finally {
+                this.isLoading = false; // ปิดตัวแสดงโหลด
             }
         }
 

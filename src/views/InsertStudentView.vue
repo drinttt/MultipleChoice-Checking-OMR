@@ -1,6 +1,6 @@
 <template>
     <div class="create-exam-view">
-        <h1>result Answer</h1>
+        <h1>Result Answer</h1>
         <form @submit.prevent="submitExam">
             <div class="form-group">
                 <label for="idexam">Exam:</label>
