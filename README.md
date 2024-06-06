@@ -37,12 +37,13 @@ npm run lint
 ## Floder api and Database
 We use XAMPP as a server emulator. You can place the "api" folder in the directory path "xampp/htdocs/" after installing XAMPP.
 
-## Running OMR in Python without Using a Web Interface
-![image](https://github.com/drinttt/MultipleChoice-Checking-OMR-WebApp/assets/94664541/aa851bfd-1169-4692-9853-869fa7672428)
+## Floder Python
+The file "omr_process_100.py" serves as the main code for checking exams with 1-100 questions according to the specified template.
 
-You can run python directly by editing the code in the file named omr_process_100.py by commenting out lines 17-18. and close comments on lines 9-14
+## The necessary path needs to be changed according to the file location on your own Device.
+- "CheckAnswerView.vue" line 81 and 109 in "MultipleChoice-Checking-OMR-WebApp/src/views/CheckAnswerView.vue" for path where the "omr_process_100.py" file is stored.
 
-![image](https://github.com/drinttt/MultipleChoice-Checking-OMR-WebApp/assets/94664541/0ba2cf41-d522-4c7f-8046-ab499eb5cf23)
-
-The folder name "xampp/htdocs/api/upload/exam_id" should match the variable name "exam_id" used in the code. In this context, "exam_id" refers to the variable name used to store the ID of the exam.
-
+Xampp
+- omr_process_100.py line 17 and 144
+- "showImgStd.php" line 14 in "api/runPythonScript.php"
+- "runPythonScript.php" line 15 in "api/runPythonScript.php"
