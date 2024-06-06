@@ -41,6 +41,8 @@ We use XAMPP as a server emulator. You can place the "api" folder in the directo
 The file "omr_process_100.py" serves as the main code for checking exams with 1-100 questions according to the specified template.
 
 ## The necessary path needs to be changed according to the file location on your own Device.
+
+Stored python files
 - "CheckAnswerView.vue" line 81 and 109 in "MultipleChoice-Checking-OMR-WebApp/src/views/CheckAnswerView.vue" for path where the "omr_process_100.py" file is stored.
 
 Xampp
