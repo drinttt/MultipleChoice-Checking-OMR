@@ -126,7 +126,7 @@ export default {
         alert('An error occurred while executing the Python script. Exam ID: ' + this.exam.id_exam);
       }
       finally {
-        this.isLoading = false; // ปิดตัวแสดงโหลด
+        this.isLoading = false;
       }
     }
 
