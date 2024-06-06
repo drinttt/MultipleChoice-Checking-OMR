@@ -46,7 +46,8 @@ The file "omr_process_100.py" serves as the main code for checking exams with 1-
 
 ### Stored python files
 
-- "CheckAnswerView.vue" line 81 and 109 in "MultipleChoice-Checking-OMR-WebApp/src/views/CheckAnswerView.vue" for path where the "omr_process_100.py" file is stored.
+- "CheckAnswerView.vue" line 81 and 109 in
+  "MultipleChoice-Checking-OMR-WebApp/src/views/CheckAnswerView.vue" for path where the "omr_process_100.py" file is stored.
 
 ### Xampp
 
