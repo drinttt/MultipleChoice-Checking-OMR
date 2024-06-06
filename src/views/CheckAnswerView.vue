@@ -75,7 +75,7 @@ export default {
     async runPythonScript() {
       this.isLoading50 = true;
       try {
-        // Include the id_exam in the data object being sent
+        // Include the id_exam in the data object being sent.
         const postData = {
           // scriptPath: 'C:\\OMR_WebApp-main\\omr_process.py',
           scriptPath: 'D:\\Dear\\IV\\Project\\OMR_WebApp\\pages\\omr_process.py',
