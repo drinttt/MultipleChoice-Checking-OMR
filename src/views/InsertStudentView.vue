@@ -40,7 +40,7 @@ export default {
     watch: {
         'exam.id_exam': {
             handler: 'fetchImages', // When this.exam.id_exam changes, call fetchImages()
-            immediate: true // Call the function immediately after the component is mounted
+            immediate: true // Call the function immediately after the component is mounted.
         }
     },
     methods: {
