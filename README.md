@@ -28,10 +28,10 @@ npm run dev
 npm run build
 ```
 
-## Floder api
-
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
 ```
+
+## Floder api
